@@ -1,0 +1,175 @@
+{
+	"info": {
+		"_postman_id": "b57d27be-d119-4395-b670-3e98ecb549b6",
+		"name": "OpenWeather",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Geo",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response code is expected\", function () {",
+							"  const expectedCodes = [200, 401, 404]",
+							"  pm.expect(expectedCodes).to.include(pm.response.code)",
+							"})",
+							"",
+							"if (pm.response.code == 200) {",
+							"    const jsonBody = pm.response.json()",
+							"    pm.test(\"OK Response is correct\", function () {",
+							"        pm.expect(jsonBody.length).to.equal(1)",
+							"        pm.expect(jsonBody[0].lat).not.to.equal(undefined)",
+							"        pm.expect(jsonBody[0].lon).not.to.equal(undefined)",
+							"    })",
+							"    pm.globals.set(\"lat\",jsonBody[0].lat)",
+							"    pm.globals.set(\"lon\",jsonBody[0].lon)",
+							"} else {",
+							"    postman.setNextRequest(null)",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://api.openweathermap.org/geo/1.0/direct?q=Moscow&limit=1&appid={{API_Key}}",
+					"protocol": "http",
+					"host": [
+						"api",
+						"openweathermap",
+						"org"
+					],
+					"path": [
+						"geo",
+						"1.0",
+						"direct"
+					],
+					"query": [
+						{
+							"key": "q",
+							"value": "Moscow"
+						},
+						{
+							"key": "limit",
+							"value": "1"
+						},
+						{
+							"key": "appid",
+							"value": "{{API_Key}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Weather",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response code is OK\", function () {",
+							"  pm.response.to.have.status(200)",
+							"})",
+							"",
+							"pm.test(\"Response is valid\", function () {",
+							"    const jsonBody = pm.response.json()",
+							"    pm.expect(jsonBody.weather).not.to.equal(undefined)",
+							"    const city = pm.globals.get('City')",
+							"    pm.expect(jsonBody.name).to.equal(city)",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.openweathermap.org/data/2.5/weather?lat={{lat}}&lon={{lon}}&appid={{API_Key}}",
+					"protocol": "https",
+					"host": [
+						"api",
+						"openweathermap",
+						"org"
+					],
+					"path": [
+						"data",
+						"2.5",
+						"weather"
+					],
+					"query": [
+						{
+							"key": "lat",
+							"value": "{{lat}}"
+						},
+						{
+							"key": "lon",
+							"value": "{{lon}}"
+						},
+						{
+							"key": "appid",
+							"value": "{{API_Key}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "apikey",
+		"apikey": [
+			{
+				"key": "value",
+				"value": "OpenKey",
+				"type": "string"
+			},
+			{
+				"key": "key",
+				"value": "1d72390289f12de1597a9ad9f559f2f0",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "API_Key",
+			"value": "1d72390289f12de1597a9ad9f559f2f0",
+			"type": "string"
+		},
+		{
+			"key": "City",
+			"value": "Moscow",
+			"type": "string"
+		}
+	]
+}

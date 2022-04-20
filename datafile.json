@@ -1,0 +1,10 @@
+[
+    {
+        "API_Key":"invalid_token",
+        "City": "Lalaland"
+    },
+    {
+        "API_Key":"valid_token",
+        "City": "Moscow"
+    }
+]
