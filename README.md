@@ -1,2 +1,2 @@
 # OpenWeather-API-test
-Please import the files in repo to use in Postman. Also edit the data file to include your API key.
+Please import repo files to Postman. Also edit the datafile.json to include your API key.
